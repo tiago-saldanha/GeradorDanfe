@@ -5,25 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeradorDanfe.App.Controllers
 {
-    public class HomeController(IGeneratorService service) : Controller
+    public class HomeController(ILogger<HomeController> logger, IGeneratorService service) : Controller
     {
         [HttpPost]
         public async Task<IActionResult> GerarDanfe(IFormFile file)
         {
             try
             {
-                var bytes = await service.ExecuteAsync(file);
-                return File(bytes, "application/pdf", "danfe.pdf");
-            }
-            catch (NotSupportedException ex)
-            {
-                TempData["Error"] = ex.Message;
-                return RedirectToAction("Index");
+                var danfe = await service.ExecuteAsync(file);
+                return File(danfe.Bytes, danfe.ContentType, danfe.Name);
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Erro inesperado ao gerar DANFE.");
                 TempData["Error"] = ex.Message;
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
         }
 

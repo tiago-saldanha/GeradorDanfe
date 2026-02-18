@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GeradorDanfe.App.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GeradorDanfe.App.Interfaces
 {
     public interface IGeneratorService
     {
-        Task<byte[]> ExecuteAsync(IFormFile file);
+        Task<DanfeResult> ExecuteAsync(IFormFile file);
     }
 }

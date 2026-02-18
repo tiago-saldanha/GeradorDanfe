@@ -1,6 +1,6 @@
 ﻿namespace GeradorDanfe.App.Interfaces
 {
-    public interface INFCeGeneratorService
+    public interface INFCeService
     {
         byte[] Generate(string xml);
     }
