@@ -1,30 +1,45 @@
 using System.Diagnostics;
+using System.Text;
+using GeradorDanfe.App.Interfaces;
 using GeradorDanfe.App.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeradorDanfe.App.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(
+        ILogger<HomeController> logger,
+        INFeGeneratorService nfeGeneratorService,
+        INFCeGeneratorService nfceGeneratorService)
+        : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpPost]
-        public async Task<IActionResult> GerarDanfe(IFormFile fileXml)
+        public async Task<IActionResult> GerarDanfe(string documentType, IFormFile file)
         {
-            if (fileXml == null || fileXml.Length == 0)
+            if (file == null || file.Length == 0)
                 return BadRequest("Arquivo inválido");
 
+            byte[] bytes;
+            logger.LogInformation("Lendo o arquivo XML");
             using var stream = new MemoryStream();
-            await fileXml.CopyToAsync(stream);
-
+            await file.CopyToAsync(stream);
             stream.Position = 0;
 
-            var bytes = stream.ToArray();
+            var xml = Encoding.UTF8.GetString(stream.ToArray());
+
+            logger.LogInformation("Gerando o PDF de NF-e");
+
+            if (documentType == "NFe")
+            {
+                bytes = nfeGeneratorService.Generate(xml);
+            }
+            else if (documentType == "NFCe")
+            {
+                bytes = nfceGeneratorService.Generate(xml);
+            }
+            else
+            {
+                return BadRequest("Tipo inválido.");
+            }
 
             return File(bytes, "application/pdf", "danfe.pdf");
         }

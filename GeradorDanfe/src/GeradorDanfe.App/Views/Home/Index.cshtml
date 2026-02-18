@@ -6,9 +6,22 @@
     <h1 class="display-4">Gerador de DANFE</h1>
 
     <form asp-action="GerarDanfe" asp-controller="Home" method="post" enctype="multipart/form-data">
+
         <div>
-            <p>Insira um XML de NF-e</p>
-            <input type="file" name="fileXml" accept=".pdf" required />
+            <p>Tipo de Documento</p>
+
+            <select name="documentType" class="form-select" required>
+                <option value="">Selecione...</option>
+                <option value="NFe">NF-e</option>
+                <option value="NFCe">NFC-e</option>
+            </select>
+        </div>
+
+        <br />
+
+        <div>
+            <p>Insira o XML</p>
+            <input type="file" name="file" accept=".xml" required />
         </div>
 
         <br />
