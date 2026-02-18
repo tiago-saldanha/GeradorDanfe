@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<INFeGeneratorService, NFeGeneratorService>();
 builder.Services.AddSingleton<INFCeGeneratorService, NFCeGeneratorService>();
+builder.Services.AddSingleton<IGeneratorService, GeneratorService>();
 
 var app = builder.Build();
 
