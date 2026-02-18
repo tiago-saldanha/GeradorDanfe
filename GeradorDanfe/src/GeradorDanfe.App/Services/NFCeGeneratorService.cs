@@ -10,23 +10,15 @@ namespace GeradorDanfe.App.Services
         /// Gera uma DANFE a partir de um xml de uma Nota Fiscal do Consumidor Eletrônica (NFC-e)
         /// </summary>
         /// <param name="xml"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <returns>Retorna um array de bytes contendo o PDF.</returns>
         public byte[] Generate(string xml)
         {
-            try
-            {
-                var danfe = new DanfeNfceDocument(xml, null);
-                danfe.TamanhoImpressao(TamanhoImpressao.Impressao80);
+            var danfe = new DanfeNfceDocument(xml, null);
+            danfe.TamanhoImpressao(TamanhoImpressao.Impressao80);
 
-                var bytes = danfe.GeneratePdf();
+            var bytes = danfe.GeneratePdf();
 
-                return bytes;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao gerar o PDF pelo QuestPDFGeneratorService", ex);
-            }
+            return bytes;
         }
     }
 }
