@@ -1,33 +1,37 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Gerador de DANFE";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Gerador de DANFE</h1>
+<div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px; border-radius: 15px;">
 
-    <form asp-action="GerarDanfe" asp-controller="Home" method="post" enctype="multipart/form-data">
-
-        <div>
-            <p>Tipo de Documento</p>
-
-            <select name="documentType" class="form-select" required>
-                <option value="">Selecione...</option>
-                <option value="NFe">NF-e</option>
-                <option value="NFCe">NFC-e</option>
-            </select>
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">📄 Gerador de DANFE</h2>
+            <p class="text-muted">Envie o XML e gere o PDF em segundos</p>
         </div>
 
-        <br />
+        <form asp-action="GerarDanfe" asp-controller="Home" method="post" enctype="multipart/form-data">
 
-        <div>
-            <p>Insira o XML</p>
-            <input type="file" name="file" accept=".xml" required />
-        </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Tipo de Documento</label>
+                <select name="documentType" class="form-select form-select-lg" required>
+                    <option value="">Selecione...</option>
+                    <option value="NFe">NF-e</option>
+                    <option value="NFCe">NFC-e</option>
+                </select>
+            </div>
 
-        <br />
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Arquivo XML</label>
+                <input type="file" name="file" class="form-control form-control-lg" accept=".xml" required />
+                <div class="form-text">Apenas arquivos .xml são permitidos.</div>
+            </div>
 
-        <div>
-            <input type="submit" value="Gerar PDF" class="btn btn-primary" />
-        </div>
-    </form>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill">
+                    🚀 Gerar PDF
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
