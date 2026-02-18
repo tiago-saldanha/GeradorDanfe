@@ -13,6 +13,22 @@ namespace GeradorDanfe.App.Controllers
             _logger = logger;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GerarDanfe(IFormFile fileXml)
+        {
+            if (fileXml == null || fileXml.Length == 0)
+                return BadRequest("Arquivo inválido");
+
+            using var stream = new MemoryStream();
+            await fileXml.CopyToAsync(stream);
+
+            stream.Position = 0;
+
+            var bytes = stream.ToArray();
+
+            return File(bytes, "application/pdf", "danfe.pdf");
+        }
+
         public IActionResult Index()
         {
             return View();

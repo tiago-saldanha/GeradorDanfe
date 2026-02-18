@@ -3,6 +3,18 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Gerador de DANFE</h1>
+
+    <form asp-action="GerarDanfe" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <div>
+            <p>Insira um XML de NF-e</p>
+            <input type="file" name="fileXml" accept=".pdf" required />
+        </div>
+
+        <br />
+
+        <div>
+            <input type="submit" value="Gerar PDF" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
