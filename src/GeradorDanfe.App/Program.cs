@@ -32,7 +32,8 @@ app.MapControllerRoute(
 // QuestODF Licensing
 QuestPDF.Settings.License = LicenseType.Community;
 
-// Wasrm-up Puppeteer
-await new BrowserFetcher().DownloadAsync();
+// Warm-up Puppeteer
+if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+    await new BrowserFetcher().DownloadAsync();
 
 app.Run();

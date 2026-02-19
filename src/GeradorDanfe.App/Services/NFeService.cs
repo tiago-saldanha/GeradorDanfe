@@ -7,26 +7,16 @@ using NFe.Danfe.Html.Dominio;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
 
-namespace GeradorDanfe.App.Services 
-{ 
-    public class NFeService : INFeService 
-    { 
-        private readonly LaunchOptions _launchOptions;
-        private readonly PdfOptions _pdfOptions;
-        
-        public NFeService() 
-        { 
-            _launchOptions = new LaunchOptions 
-            { 
-                Headless = true, 
-                Args = ["--no-sandbox"] 
-            }; 
-            
-            _pdfOptions = new PdfOptions 
-            { 
-                Format = PaperFormat.A4, 
-                PrintBackground = true 
-            };
+namespace GeradorDanfe.App.Services
+{
+    public class NFeService : INFeService
+    {
+        private LaunchOptions _launchOptions;
+        private PdfOptions _pdfOptions;
+
+        public NFeService()
+        {
+            SetOptions();
         }
 
         /// <summary>
@@ -48,33 +38,66 @@ namespace GeradorDanfe.App.Services
         /// <exception cref="Exception">
         /// Lançada quando ocorre erro durante a geração do HTML ou conversão para PDF.
         /// </exception>
-        public async Task<byte[]> GenerateAsync(string xml) 
-        { 
-            var danfe = GetDanfeHtml(xml); 
-            var document = await danfe.ObterDocHtmlAsync(); 
-            return await GeneratePdfAsync(document.Html); 
-        } 
-        
-        private async Task<byte[]> GeneratePdfAsync(string html) 
-        { 
-            await using var browser = await Puppeteer.LaunchAsync(_launchOptions); 
-            
-            await using var page = await browser.NewPageAsync(); 
-            
-            await page.SetContentAsync(html); 
-            
-            return await page.PdfDataAsync(_pdfOptions); 
-        } 
-        
-        private DanfeNfeHtml2 GetDanfeHtml(string xml) 
-        { 
-            var proc = new nfeProc().CarregarDeXmlString(xml); 
-            
-            if (proc.NFe.infNFe.ide.mod != ModeloDocumento.NFe) throw new Exception("O XML informado não é um NFe!"); 
-            
-            var danfe = new DanfeNFe(proc.NFe, Status.Autorizada, proc.protNFe.infProt.nProt, "Emissor Fiscal Saldanha - app.cloudtas.com.br"); 
-            
-            return new DanfeNfeHtml2(danfe); 
-        } 
+        public async Task<byte[]> GenerateAsync(string xml)
+        {
+            var danfe = GetDanfeHtml(xml);
+            var document = await danfe.ObterDocHtmlAsync();
+            return await GeneratePdfAsync(document.Html);
+        }
+
+        private async Task<byte[]> GeneratePdfAsync(string html)
+        {
+            await using var browser = await Puppeteer.LaunchAsync(_launchOptions);
+
+            await using var page = await browser.NewPageAsync();
+
+            await page.SetContentAsync(html);
+
+            return await page.PdfDataAsync(_pdfOptions);
+        }
+
+        private DanfeNfeHtml2 GetDanfeHtml(string xml)
+        {
+            var proc = new nfeProc().CarregarDeXmlString(xml);
+
+            if (proc.NFe.infNFe.ide.mod != ModeloDocumento.NFe) throw new Exception("O XML informado não é um NFe!");
+
+            var danfe = new DanfeNFe(proc.NFe, Status.Autorizada, proc.protNFe.infProt.nProt, "Emissor Fiscal Saldanha - app.cloudtas.com.br");
+
+            return new DanfeNfeHtml2(danfe);
+        }
+
+        private void SetOptions()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                _launchOptions = new LaunchOptions
+                {
+                    Headless = true,
+                    Args = ["--no-sandbox"]
+                };
+            }
+            else
+            {
+                _launchOptions = new LaunchOptions
+                {
+                    Headless = true,
+                    ExecutablePath = "/usr/bin/chromium-browser",
+                    Args = new[]
+                    {
+                        "--no-sandbox",
+                        "--disable-setuid-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--disable-gpu"
+                    }
+                };
+            }
+
+            _pdfOptions = new PdfOptions
+            {
+                Format = PaperFormat.A4,
+                PrintBackground = true
+            };
+        }
     }
 }
