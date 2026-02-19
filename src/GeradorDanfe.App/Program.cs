@@ -1,5 +1,6 @@
 using GeradorDanfe.App.Interfaces;
 using GeradorDanfe.App.Services;
+using PuppeteerSharp;
 using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// QuestODF Licensing
 QuestPDF.Settings.License = LicenseType.Community;
+
+// Wasrm-up Puppeteer
+await new BrowserFetcher().DownloadAsync();
 
 app.Run();

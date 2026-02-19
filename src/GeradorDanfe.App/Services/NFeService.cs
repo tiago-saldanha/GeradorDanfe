@@ -1,16 +1,40 @@
 ﻿using GeradorDanfe.App.Interfaces;
-using NFe.Danfe.PdfClown;
-using NFe.Danfe.PdfClown.Modelo;
+using DFe.Classes.Flags;
+using NFe.Classes;
+using NFe.Danfe.Html;
+using NFe.Danfe.Html.CrossCutting;
+using NFe.Danfe.Html.Dominio;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
 
-namespace GeradorDanfe.App.Services
-{
-    public class NFeService : INFeService
-    {
+namespace GeradorDanfe.App.Services 
+{ 
+    public class NFeService : INFeService 
+    { 
+        private readonly LaunchOptions _launchOptions;
+        private readonly PdfOptions _pdfOptions;
+        
+        public NFeService() 
+        { 
+            _launchOptions = new LaunchOptions 
+            { 
+                Headless = true, 
+                Args = ["--no-sandbox"] 
+            }; 
+            
+            _pdfOptions = new PdfOptions 
+            { 
+                Format = PaperFormat.A4, 
+                PrintBackground = true 
+            };
+        }
+
         /// <summary>
-        /// Gera o DANFE em formato PDF a partir do XML de uma NFC-e (modelo 65).
+        /// Gera o DANFE em formato PDF a partir do XML de uma NF-e (modelo 55),
+        /// utilizando renderização em HTML e conversão para PDF via Puppeteer (Chromium).
         /// </summary>
         /// <param name="xml">
-        /// Conteúdo do XML da NFC-e.
+        /// Conteúdo do XML da NF-e.
         /// </param>
         /// <returns>
         /// Um array de bytes representando o arquivo PDF gerado.
@@ -19,18 +43,38 @@ namespace GeradorDanfe.App.Services
         /// Lançada quando o XML é nulo, vazio ou inválido.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Lançada quando ocorre erro durante a geração do PDF.
+        /// Lançada quando o XML informado não corresponde a uma NF-e (modelo 55).
         /// </exception>
-        public byte[] Generate(string xml)
-        {
-            var model = DanfeViewModelCreator.CriarDeStringXml(xml);
-
-            using var stream = new MemoryStream();
-            using var danfe = new DanfeDoc(model);
-
-            danfe.Gerar();
-
-            return danfe.ObterPdfBytes(stream);
-        }
+        /// <exception cref="Exception">
+        /// Lançada quando ocorre erro durante a geração do HTML ou conversão para PDF.
+        /// </exception>
+        public async Task<byte[]> GenerateAsync(string xml) 
+        { 
+            var danfe = GetDanfeHtml(xml); 
+            var document = await danfe.ObterDocHtmlAsync(); 
+            return await GeneratePdfAsync(document.Html); 
+        } 
+        
+        private async Task<byte[]> GeneratePdfAsync(string html) 
+        { 
+            await using var browser = await Puppeteer.LaunchAsync(_launchOptions); 
+            
+            await using var page = await browser.NewPageAsync(); 
+            
+            await page.SetContentAsync(html); 
+            
+            return await page.PdfDataAsync(_pdfOptions); 
+        } 
+        
+        private DanfeNfeHtml2 GetDanfeHtml(string xml) 
+        { 
+            var proc = new nfeProc().CarregarDeXmlString(xml); 
+            
+            if (proc.NFe.infNFe.ide.mod != ModeloDocumento.NFe) throw new Exception("O XML informado não é um NFe!"); 
+            
+            var danfe = new DanfeNFe(proc.NFe, Status.Autorizada, proc.protNFe.infProt.nProt, "Emissor Fiscal Saldanha - app.cloudtas.com.br"); 
+            
+            return new DanfeNfeHtml2(danfe); 
+        } 
     }
 }

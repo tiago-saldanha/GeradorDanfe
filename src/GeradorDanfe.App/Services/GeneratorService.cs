@@ -31,12 +31,12 @@ namespace GeradorDanfe.App.Services
             if (file == null || file.Length == 0) throw new NotSupportedException("Selecione um arquivo XML válido.");
             
             var xml = await ReadFormFileAsync(file);
-            
-
             var key = GetDocumentKey(xml);
+            
             logger.LogInformation("Lendo o arquivo XML: {key}", key);
 
-            var bytes = GetPdfBytes(xml);
+            var bytes = await GetPdfBytesAsync(xml);
+            
             logger.LogInformation("PDF gerado com sucesso: {key}.pdf", key);
 
             return new DanfeResult(bytes, $"{key}.pdf");
@@ -51,13 +51,13 @@ namespace GeradorDanfe.App.Services
             return Encoding.UTF8.GetString(stream.ToArray());
         }
 
-        private byte[] GetPdfBytes(string xml)
+        private async Task<byte[]> GetPdfBytesAsync(string xml)
         {
             byte[] bytes;
             
             if (xml.Contains("<mod>55</mod>"))
             {
-                bytes = nfeService.Generate(xml);
+                bytes = await nfeService.GenerateAsync(xml);
             }
             else if (xml.Contains("<mod>65</mod>"))
             {

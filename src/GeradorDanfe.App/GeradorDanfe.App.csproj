@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Zeus.Net.NFe.Danfe.PdfClown" Version="2026.2.5.1303" />
+    <PackageReference Include="PuppeteerSharp" Version="21.1.0" />
+    <PackageReference Include="Zeus.Net.NFe.Danfe.Html" Version="2026.2.5.1303" />
     <PackageReference Include="Zeus.Net.NFe.Danfe.QuestPdf" Version="2026.2.5.1303" />
   </ItemGroup>
 

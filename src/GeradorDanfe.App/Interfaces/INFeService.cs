@@ -2,6 +2,6 @@
 {
     public interface INFeService
     {
-        byte[] Generate(string xml);
+        Task<byte[]> GenerateAsync(string xml);
     }
 }
