@@ -82,7 +82,6 @@ namespace GeradorDanfe.App.Services
                 _launchOptions = new LaunchOptions
                 {
                     Headless = true,
-                    ExecutablePath = "/usr/bin/chromium-browser",
                     Args = new[]
                     {
                         "--no-sandbox",
