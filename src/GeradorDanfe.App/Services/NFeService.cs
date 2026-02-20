@@ -11,8 +11,8 @@ namespace GeradorDanfe.App.Services
 {
     public class NFeService : INFeService
     {
-        private LaunchOptions _launchOptions;
-        private PdfOptions _pdfOptions;
+        private LaunchOptions _launchOptions = default!;
+        private PdfOptions _pdfOptions = default!;
 
         public NFeService()
         {

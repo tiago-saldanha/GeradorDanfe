@@ -33,7 +33,6 @@ app.MapControllerRoute(
 QuestPDF.Settings.License = LicenseType.Community;
 
 // Warm-up Puppeteer
-if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-    await new BrowserFetcher().DownloadAsync();
+await new BrowserFetcher().DownloadAsync();
 
 app.Run();

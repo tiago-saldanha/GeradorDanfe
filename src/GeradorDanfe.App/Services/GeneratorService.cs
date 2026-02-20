@@ -73,19 +73,8 @@ namespace GeradorDanfe.App.Services
 
         private string GetDocumentKey(string xml)
         {
-            var document = XDocument.Parse(xml);
-
-            var infNFe = document.Descendants()
-                    .FirstOrDefault(e => e.Name.LocalName == "infNFe");
-
-            if (infNFe == null)
-                throw new Exception("Não foi possível ler a chave de acesso no XML fornecido.");
-
-            var id = infNFe.Attribute("Id")?.Value;
-
-            if (string.IsNullOrEmpty(id) || !id.StartsWith("NFe"))
-                throw new Exception("Chave de acesso inválida presente no XML é inválida.");
-
+            var infNFe = XDocument.Parse(xml).Descendants().FirstOrDefault(e => e.Name.LocalName == "infNFe") ?? throw new Exception("Não foi possível ler a chave de acesso no XML fornecido.");
+            var id = infNFe.Attribute("Id")?.Value ?? throw new Exception("Chave de acesso inválida presente no XML é inválida.");
             return id.Replace("NFe", "");
         }
     }
