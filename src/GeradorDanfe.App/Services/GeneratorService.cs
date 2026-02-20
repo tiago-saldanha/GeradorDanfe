@@ -7,16 +7,15 @@ namespace GeradorDanfe.App.Services
 {
     public class GeneratorService(
         ILogger<GeneratorService> logger, 
-        INFeService nfeService, 
-        INFCeService nfceService)
+        INFeService nfeService)
         : IGeneratorService
     {
         /// <summary>
-        /// Lê um arquivo XML de NF-e (modelo 55) ou NFC-e (modelo 65),
+        /// Lê um arquivo XML de NF-e (modelo 55),
         /// identifica automaticamente o tipo do documento e gera o DANFE em PDF.
         /// </summary>
         /// <param name="file">
-        /// Arquivo XML contendo a NF-e ou NFC-e.
+        /// Arquivo XML contendo a NF-e.
         /// </param>
         /// <returns>
         /// Um <see cref="DanfeResult"/> contendo o PDF gerado e o nome do arquivo,
@@ -59,13 +58,9 @@ namespace GeradorDanfe.App.Services
             {
                 bytes = await nfeService.GenerateAsync(xml);
             }
-            else if (xml.Contains("<mod>65</mod>"))
-            {
-                bytes = nfceService.Generate(xml);
-            }
             else
             {
-                throw new NotSupportedException("Informe um XML de uma NF-e ou NFC-e!");
+                throw new NotSupportedException("Informe um XML de uma NF-e");
             }
             
             return bytes;
