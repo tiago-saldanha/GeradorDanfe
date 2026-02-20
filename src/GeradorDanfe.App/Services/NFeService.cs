@@ -4,21 +4,11 @@ using NFe.Classes;
 using NFe.Danfe.Html;
 using NFe.Danfe.Html.CrossCutting;
 using NFe.Danfe.Html.Dominio;
-using PuppeteerSharp;
-using PuppeteerSharp.Media;
 
 namespace GeradorDanfe.App.Services
 {
-    public class NFeService : INFeService
+    public class NFeService(IPDFService pdfService) : INFeService
     {
-        private LaunchOptions _launchOptions = default!;
-        private PdfOptions _pdfOptions = default!;
-
-        public NFeService()
-        {
-            SetOptions();
-        }
-
         /// <summary>
         /// Gera o DANFE em formato PDF a partir do XML de uma NF-e (modelo 55),
         /// utilizando renderização em HTML e conversão para PDF via Puppeteer (Chromium).
@@ -42,18 +32,8 @@ namespace GeradorDanfe.App.Services
         {
             var danfe = GetDanfeHtml(xml);
             var document = await danfe.ObterDocHtmlAsync();
-            return await GeneratePdfAsync(document.Html);
-        }
-
-        private async Task<byte[]> GeneratePdfAsync(string html)
-        {
-            await using var browser = await Puppeteer.LaunchAsync(_launchOptions);
-
-            await using var page = await browser.NewPageAsync();
-
-            await page.SetContentAsync(html);
-
-            return await page.PdfDataAsync(_pdfOptions);
+            var result = pdfService.Generate(document.Html);
+            return result;
         }
 
         private DanfeNfeHtml2 GetDanfeHtml(string xml)
@@ -65,38 +45,6 @@ namespace GeradorDanfe.App.Services
             var danfe = new DanfeNFe(proc.NFe, Status.Autorizada, proc.protNFe.infProt.nProt, "Emissor Fiscal Saldanha - app.cloudtas.com.br");
 
             return new DanfeNfeHtml2(danfe);
-        }
-
-        private void SetOptions()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                _launchOptions = new LaunchOptions
-                {
-                    Headless = true,
-                    Args = ["--no-sandbox"]
-                };
-            }
-            else
-            {
-                _launchOptions = new LaunchOptions
-                {
-                    Headless = true,
-                    Args = new[]
-                    {
-                        "--no-sandbox",
-                        "--disable-setuid-sandbox",
-                        "--disable-dev-shm-usage",
-                        "--disable-gpu"
-                    }
-                };
-            }
-
-            _pdfOptions = new PdfOptions
-            {
-                Format = PaperFormat.A4,
-                PrintBackground = true
-            };
         }
     }
 }
