@@ -1,12 +1,10 @@
-using GeradorDanfe.App.Interfaces;
-using GeradorDanfe.App.Services;
-using PuppeteerSharp;
+using GeradorDanfe.App.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<INFeService, NFeService>();
-builder.Services.AddTransient<IGeneratorService, GeneratorService>();
+builder.ConfigureCustomAssembly();
+
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 
@@ -27,7 +25,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Warm-up Puppeteer
-await new BrowserFetcher().DownloadAsync();
 
 app.Run();
