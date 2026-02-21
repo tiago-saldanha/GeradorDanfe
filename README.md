@@ -1,17 +1,14 @@
 # 🧾 GeradorDanfe
 
-Aplicação web desenvolvida em **ASP.NET Core** para geração automática de **DANFE (NF-e e NFC-e)** a partir do upload de um arquivo XML.
+Aplicação web desenvolvida em **ASP.NET Core** para geração automática de **DANFE (NF-e)** a partir do upload de um arquivo XML.
 
-O sistema identifica automaticamente o modelo do documento fiscal (55 ou 65), extrai a chave de acesso e gera o PDF correspondente.
+O sistema identifica automaticamente o documento fiscal, extrai a chave de acesso e gera o PDF correspondente.
 
 ---
 
 ## 🚀 Funcionalidades
 
-- 📂 Upload de XML de NF-e ou NFC-e
-- 🔎 Identificação automática do modelo:
-  - **55** → NF-e
-  - **65** → NFC-e
+- 📂 Upload de XML de NF-e
 - 🔑 Extração automática da chave de acesso
 - 📄 Geração do DANFE em PDF
 - 🧠 Arquitetura baseada em serviços (SRP)
@@ -33,11 +30,10 @@ O projeto segue boas práticas de separação de responsabilidades:
 - **GeneratorService**
   - Responsável por:
     - Ler o XML
-    - Identificar modelo
     - Delegar geração para o serviço correto
     - Extrair chave de acesso
 
-- **INFeService / INFCeService**
+- **INFeService**
   - Responsáveis pela geração específica do DANFE
 
 ---
@@ -47,7 +43,6 @@ O projeto segue boas práticas de separação de responsabilidades:
 1. Usuário envia XML
 2. Sistema:
    - Lê conteúdo
-   - Detecta `<mod>55</mod>` ou `<mod>65</mod>`
    - Extrai chave do atributo `Id` da tag `<infNFe>`
 3. Serviço correspondente gera o PDF
 4. Retorna o arquivo nomeado com a chave
@@ -76,12 +71,10 @@ GeradorDanfe.App
 ├── Services
 │   ├── GeneratorService
 │   ├── NFeService
-│   └── NFCeService
 │
 ├── Interfaces
 │   ├── IGeneratorService
 │   ├── INFeService
-│   └── INFCeService
 │
 └── Models / DTOs
 ```
@@ -101,7 +94,6 @@ GeradorDanfe.App
 ```csharp
 builder.Services.AddTransient<IGeneratorService, GeneratorService>();
 builder.Services.AddTransient<INFeService, NFeService>();
-builder.Services.AddTransient<INFCeService, NFCeService>();
 ```
 
 ---
