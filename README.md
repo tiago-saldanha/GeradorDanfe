@@ -2,7 +2,7 @@
 
 Aplicação web desenvolvida em **ASP.NET Core** para geração automática de **DANFE (NF-e)** a partir do upload de um arquivo XML.
 
-O sistema identifica automaticamente o documento fiscal, extrai a chave de acesso e gera o PDF correspondente.
+O sistema identifica automaticamente o documento fiscal, extrai a chave de acesso e gera o PDF correspondente utilizando **DinkToPdf (wkhtmltopdf)**.
 
 ---
 
@@ -14,6 +14,7 @@ O sistema identifica automaticamente o documento fiscal, extrai a chave de acess
 - 🧠 Arquitetura baseada em serviços (SRP)
 - 🧾 Nome do PDF baseado na chave da nota
 - 🎨 Interface simples e amigável
+- 🖥️ Compatível com Windows e Linux
 
 ---
 
@@ -35,6 +36,8 @@ O projeto segue boas práticas de separação de responsabilidades:
 
 - **INFeService**
   - Responsáveis pela geração específica do DANFE
+- **IPDFService**
+  - Responsável por gerar o PDF utilizando DinkToPdf
 
 ---
 
@@ -57,27 +60,56 @@ O projeto segue boas práticas de separação de responsabilidades:
 - LINQ to XML (`XDocument`)
 - Bootstrap (UI)
 - Logging com `ILogger`
+- DinkToPdf
+- wkhtmltopdf
 
 ---
 
-## 📂 Estrutura Simplificada
+📄 Geração de PDF (DinkToPdf + wkhtmltox)
 
+A aplicação utiliza DinkToPdf, que é um wrapper .NET para o wkhtmltopdf.
+
+🪟 Windows
+- A biblioteca `libwkhtmltox.dll` já está incluída no projeto:
+
+```bash
+/Lib/libwkhtmltox.dll
 ```
-GeradorDanfe.App
-│
-├── Controllers
-│   └── HomeController
-│
-├── Services
-│   ├── GeneratorService
-│   ├── NFeService
-│
-├── Interfaces
-│   ├── IGeneratorService
-│   ├── INFeService
-│
-└── Models / DTOs
+Mesmo assim, recomenda-se instalar o wkhtmltopdf oficialmente na máquina para evitar problemas de dependências.
+
+[Download oficial](https://wkhtmltopdf.org/downloads.html)
+
+---
+
+🐧 Linux (Ubuntu exemplo)
+
+No Linux é necessário instalar o pacote do wkhtmltox.
+
+Repositório oficial de pacotes:
+https://github.com/wkhtmltopdf/packaging/releases
+
+Exemplo para Ubuntu:
+
+```bash
+sudo dpkg -i wkhtmltox_{{versao}}.deb
 ```
+
+Caso falte alguma dependência:
+```bash
+sudo apt install -f
+```
+
+Para verificar se a biblioteca está instalada:
+```bash
+whereis libwkhtmltox.so
+```
+
+Normalmente será instalada em:
+```bash
+/usr/local/lib/libwkhtmltox.so
+```
+
+No Linux, o sistema operacional gerencia o binário instalado globalmente, não sendo necessário incluir o arquivo manualmente dentro do projeto.
 
 ---
 
@@ -89,18 +121,7 @@ GeradorDanfe.App
 
 ---
 
-## 🧩 Registro de Dependências
-
-```csharp
-builder.Services.AddTransient<IGeneratorService, GeneratorService>();
-builder.Services.AddTransient<INFeService, NFeService>();
-```
-
----
-
 ## 📸 Preview
-
-<img width="1919" height="941" alt="image" src="https://github.com/user-attachments/assets/b0aaed7f-84ae-411a-93a3-90473766aab9" />
 
 <img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/9ef39c9c-4725-4de7-b091-d4624b43ec0c" />
 
