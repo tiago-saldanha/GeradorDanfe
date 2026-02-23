@@ -1,9 +1,19 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - GeradorDanfe.App</title>
+	<title>@ViewData["Title"]</title>
+	<meta name="description" content="Converta arquivos XML de Nota Fiscal Eletrônica (NF-e) em DANFE PDF de forma rápida e segura. Gere seu DANFE online gratuitamente.">
+	<meta name="robots" content="index, follow">
+	<meta name="googlebot" content="index, follow">
+	<link rel="canonical" href="https://getdanfe.cloudtas.com.br/" />
+	<!-- Open Graph -->
+	<meta property="og:title" content="Converter XML de NFe para DANFE Online">
+	<meta property="og:description" content="Envie o XML da NF-e e gere o DANFE em PDF automaticamente.">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://getdanfe.cloudtas.com.br/">
+	<meta property="og:site_name" content="GetDanfe">
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/GeradorDanfe.App.styles.css" asp-append-version="true" />
@@ -11,31 +21,31 @@
 <body>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light custom-navbar shadow-sm">
-			<div class="container">
+			<div class="container justify-content-center">
 
-				<a class="navbar-brand fw-bold mx-auto text-primary"
-				   asp-area="" asp-controller="Home" asp-action="Index">
-					📄 Gerador DANFE
-				</a>
-
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+				<button class="navbar-toggler" type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarContent">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 
 				<div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-					<ul class="navbar-nav gap-3">
+					<ul class="navbar-nav gap-4">
 						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+							<a class="nav-link" asp-controller="Home" asp-action="Index">
+								Home
+							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+							<a class="nav-link" asp-controller="Home" asp-action="Privacy">
+								Política de Privacidade
+							</a>
 						</li>
 					</ul>
 				</div>
 
 			</div>
 		</nav>
-
 	</header>
 	<div class="container">
 		<main role="main" class="pb-3">
@@ -45,7 +55,7 @@
 
 	<footer class="border-top footer text-muted">
 		<div class="container">
-			&copy; 2026 - GeradorDanfe.App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			&copy; 2026 - GetDanfe - <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de Privacidade</a>
 		</div>
 	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>

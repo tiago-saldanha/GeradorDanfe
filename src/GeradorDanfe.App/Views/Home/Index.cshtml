@@ -1,47 +1,83 @@
 ﻿@{
-    ViewData["Title"] = "Gerador de DANFE";
+    ViewData["Title"] = "Converter XML de NFe para DANFE Online | GetDanfe";
 }
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
-    <div class="card shadow-sm p-4" style="width: 100%; max-width: 500px; border-radius: 14px;">
+<main>
 
-        <div class="text-center mb-4">
-            <h2 class="fw-bold">📄 Gerador de DANFE</h2>
-            <p class="text-muted">
-                Envie o XML da NF-e e gere o PDF automaticamente
+    <!-- HERO -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="hero-title">
+                Converter XML de NFe para DANFE Online
+            </h1>
+            <p class="hero-subtitle">
+                Envie o XML da Nota Fiscal Eletrônica (modelo 55) e gere o DANFE em PDF automaticamente, de forma rápida e segura.
             </p>
         </div>
+    </section>
 
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger text-center">
-                @TempData["Error"]
-            </div>
-        }
+    <!-- CARD PRINCIPAL -->
+    <section class="container d-flex justify-content-center">
+        <div class="card main-card p-4" style="width:100%; max-width:520px;">
 
-        <form asp-action="GerarDanfe"
-              asp-controller="Home"
-              method="post"
-              enctype="multipart/form-data">
-
-            <div class="mb-4">
-                <label class="form-label fw-semibold">Arquivo XML</label>
-                <input type="file"
-                       name="file"
-                       class="form-control form-control-lg"
-                       accept=".xml"
-                       required />
-                <div class="form-text">
-                    Informe o XML de uma NF-e (modelo 55)
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger text-center">
+                    @TempData["Error"]
                 </div>
-            </div>
+            }
 
-            <div class="d-grid">
-                <button type="submit"
-                        class="btn btn-primary btn-lg rounded-pill">
-                    🚀 Gerar PDF
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+            <form asp-action="GerarDanfe"
+                  asp-controller="Home"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Arquivo XML da NF-e</label>
+                    <input type="file"
+                           name="file"
+                           class="form-control form-control-lg"
+                           accept=".xml"
+                           required />
+                    <div class="form-text">
+                        Selecione o XML da NF-e (modelo 55) para gerar o DANFE.
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit"
+                            class="btn btn-primary btn-lg">
+                        Gerar DANFE em PDF
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- CONTEÚDO SEO -->
+    <section class="seo-content container mt-5">
+
+        <h2>O que é DANFE?</h2>
+        <p>
+            O DANFE (Documento Auxiliar da Nota Fiscal Eletrônica) é a representação gráfica da NF-e.
+            Ele permite visualizar as principais informações da nota fiscal e consultar a chave de acesso
+            diretamente no portal da SEFAZ.
+        </p>
+
+        <h2>Como converter XML de NFe para DANFE?</h2>
+        <p>
+            Basta enviar o arquivo XML da NF-e no formulário acima.
+            O sistema processa automaticamente o arquivo e gera o DANFE em PDF,
+            pronto para download imediato.
+        </p>
+
+        <h2>É seguro enviar meu XML?</h2>
+        <p>
+            Sim. O processamento é feito automaticamente e os arquivos não são armazenados
+            permanentemente após a geração do PDF.
+        </p>
+
+    </section>
+
+</main>

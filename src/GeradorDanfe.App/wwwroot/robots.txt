@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://getdanfe.cloudtas.com.br/sitemap.xml

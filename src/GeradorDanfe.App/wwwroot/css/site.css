@@ -1,5 +1,10 @@
+/* ================================
+   Base
+================================ */
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,43 +13,158 @@ html {
     }
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
+    margin: 0;
     margin-bottom: 60px;
+    background: linear-gradient(135deg, #f2f4f8 0%, #e9eef6 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #1f2937;
 }
 
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 23px;
+    font-weight: 600;
+    margin-top: 32px;
+}
+
+/* ================================
+   Navbar
+================================ */
 .custom-navbar {
-    background-color: #f8f9fb;
+    background-color: #ffffff;
     padding: 14px 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-    .custom-navbar .navbar-brand {
-        font-size: 1.35rem;
-        letter-spacing: 0.5px;
+    .custom-navbar .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .custom-navbar .nav-link {
+        font-size: 0.95rem;
         color: #495057;
         font-weight: 500;
-        transition: color 0.2s ease;
+        transition: all 0.2s ease;
     }
 
         .custom-navbar .nav-link:hover {
             color: #0d6efd;
         }
 
-body {
-    background-color: #f2f4f8;
+/* ================================
+   Main container
+================================ */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ================================
+   Hero
+================================ */
+.hero-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 8px;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ================================
+   Card Principal
+================================ */
+.main-card {
+    border-radius: 18px;
+    border: none;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .main-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+    }
+
+/* ================================
+   Upload
+================================ */
+.form-control-lg {
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+/* ================================
+   Botão principal
+================================ */
+.btn-primary {
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 12px 0;
+    transition: all 0.2s ease;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+    }
+
+/* ================================
+   Alertas
+================================ */
+.alert {
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+/* ================================
+   Conteúdo SEO
+================================ */
+.seo-content {
+    margin-top: 60px;
+    line-height: 1.7;
+}
+
+    .seo-content p {
+        color: #4b5563;
+        margin-top: 10px;
+        max-width: 850px;
+    }
+
+/* ================================
+   Responsivo
+================================ */
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 26px;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
 }
