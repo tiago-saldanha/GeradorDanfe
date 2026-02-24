@@ -1,11 +1,11 @@
-﻿using GeradorDanfe.App.Interfaces;
-using DFe.Classes.Flags;
+﻿using DFe.Classes.Flags;
+using GeradorDanfe.Application.Interfaces;
 using NFe.Classes;
 using NFe.Danfe.Html;
 using NFe.Danfe.Html.CrossCutting;
 using NFe.Danfe.Html.Dominio;
 
-namespace GeradorDanfe.App.Services
+namespace GeradorDanfe.Application.Services
 {
     public class NFeService(IPDFService pdfService) : INFeService
     {
@@ -42,7 +42,7 @@ namespace GeradorDanfe.App.Services
 
             if (proc.NFe.infNFe.ide.mod != ModeloDocumento.NFe) throw new Exception("O XML informado não é um NFe!");
 
-            var danfe = new DanfeNFe(proc.NFe, Status.Autorizada, proc.protNFe.infProt.nProt, "Emissor Fiscal Saldanha - app.cloudtas.com.br");
+            var danfe = new DanfeNFe(proc.NFe, Status.Autorizada, proc.protNFe.infProt.nProt, "GetDanfe - getdanfe.cloudtas.com.br");
 
             return new DanfeNfeHtml2(danfe);
         }

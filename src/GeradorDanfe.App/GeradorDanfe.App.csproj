@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GeradorDanfe.Application\GeradorDanfe.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Lib\libwkhtmltox.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

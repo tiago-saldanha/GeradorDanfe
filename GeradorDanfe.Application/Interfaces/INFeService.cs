@@ -1,4 +1,4 @@
-﻿namespace GeradorDanfe.App.Interfaces
+﻿namespace GeradorDanfe.Application.Interfaces
 {
     public interface INFeService
     {

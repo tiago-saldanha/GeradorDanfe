@@ -1,8 +1,8 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
-using GeradorDanfe.App.Interfaces;
+using GeradorDanfe.Application.Interfaces;
 
-namespace GeradorDanfe.App.Services
+namespace GeradorDanfe.Application.Services
 {
     public class PDFService(IConverter converter) : IPDFService
     {

@@ -1,9 +1,9 @@
 ﻿using DinkToPdf.Contracts;
 using DinkToPdf;
 using GeradorDanfe.App.Context;
-using GeradorDanfe.App.Interfaces;
-using GeradorDanfe.App.Services;
 using System.Runtime.InteropServices;
+using GeradorDanfe.Application.Services;
+using GeradorDanfe.Application.Interfaces;
 
 namespace GeradorDanfe.App.Extensions
 {

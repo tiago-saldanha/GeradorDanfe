@@ -1,9 +1,10 @@
 ﻿using System.Text;
 using System.Xml.Linq;
-using GeradorDanfe.App.DTOs;
-using GeradorDanfe.App.Interfaces;
+using GeradorDanfe.Application.Models;
+using Microsoft.Extensions.Logging;
+using GeradorDanfe.Application.Interfaces;
 
-namespace GeradorDanfe.App.Services
+namespace GeradorDanfe.Application.Services
 {
     public class GeneratorService(
         ILogger<GeneratorService> logger, 
@@ -25,11 +26,10 @@ namespace GeradorDanfe.App.Services
         /// Lançada quando o arquivo é inválido, vazio ou quando o modelo do documento
         /// não é suportado.
         /// </exception>
-        public async Task<DanfeResult> ExecuteAsync(IFormFile file)
+        public async Task<DanfeResult> ExecuteAsync(Stream stream)
         {
-            if (file == null || file.Length == 0) throw new NotSupportedException("Selecione um arquivo XML válido.");
-            
-            var xml = await ReadFormFileAsync(file);
+            using var reader = new StreamReader(stream, Encoding.UTF8);
+            var xml = await reader.ReadToEndAsync();
             var key = GetDocumentKey(xml);
             
             logger.LogInformation("Lendo o arquivo XML: {key}", key);
@@ -39,15 +39,6 @@ namespace GeradorDanfe.App.Services
             logger.LogInformation("PDF gerado com sucesso: {key}.pdf", key);
 
             return new DanfeResult(bytes, $"{key}.pdf");
-        }
-
-        private async Task<string> ReadFormFileAsync(IFormFile file)
-        {
-            using var stream = new MemoryStream();
-            await file.CopyToAsync(stream);
-            stream.Position = 0;
-            
-            return Encoding.UTF8.GetString(stream.ToArray());
         }
 
         private async Task<byte[]> GetPdfBytesAsync(string xml)
@@ -68,8 +59,13 @@ namespace GeradorDanfe.App.Services
 
         private string GetDocumentKey(string xml)
         {
-            var infNFe = XDocument.Parse(xml).Descendants().FirstOrDefault(e => e.Name.LocalName == "infNFe") ?? throw new Exception("Não foi possível ler a chave de acesso no XML fornecido.");
+            var infNFe = XDocument
+                .Parse(xml)
+                .Descendants()
+                .FirstOrDefault(e => e.Name.LocalName == "infNFe") ?? throw new Exception("Não foi possível ler a chave de acesso no XML fornecido.");
+
             var id = infNFe.Attribute("Id")?.Value ?? throw new Exception("Chave de acesso inválida presente no XML é inválida.");
+            
             return id.Replace("NFe", "");
         }
     }
