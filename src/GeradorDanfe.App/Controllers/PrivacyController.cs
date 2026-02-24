@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeradorDanfe.App.Controllers
 {
-    public class PrivacyPolicyController() : Controller
+    public class PrivacyController() : Controller
     {
         public IActionResult Index()
         {
