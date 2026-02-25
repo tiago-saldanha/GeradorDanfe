@@ -19,7 +19,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Publish
-        run: dotnet publish src/GeradorDanfe.App/GeradorDanfe.App.csproj -c Release -o ./publish
+        run: dotnet publish src/GeradorDanfe.Web/GeradorDanfe.Web.csproj -c Release -o ./publish
 
       - name: Deploy via SSH (SCP)
         uses: appleboy/scp-action@v0.1.7

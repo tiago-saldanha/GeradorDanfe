@@ -2,8 +2,8 @@
 
 namespace GeradorDanfe.Application.Interfaces
 {
-    public interface IGeneratorService
+    public interface IDanfeService
     {
-        Task<DanfeResult> ExecuteAsync(Stream stream);
+        Task<DanfeResult> GenerateDanfeAsync(Stream stream);
     }
 }

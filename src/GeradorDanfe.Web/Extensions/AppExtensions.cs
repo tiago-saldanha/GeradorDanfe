@@ -25,9 +25,8 @@ namespace GeradorDanfe.App.Extensions
         {
             services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
             services.AddControllersWithViews();
-            services.AddTransient<IPDFService, PDFService>();
-            services.AddTransient<INFeService, NFeService>();
-            services.AddTransient<IGeneratorService, GeneratorService>();
+            services.AddScoped<IPDFService, PDFService>();
+            services.AddScoped<IDanfeService, DanfeService>();
             return services;
         }
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeradorDanfe.App.Controllers
 {
-    public class HomeController(ILogger<HomeController> logger, IGeneratorService service) : Controller
+    public class HomeController(ILogger<HomeController> logger, IDanfeService service) : Controller
     {
         [HttpPost]
         public async Task<IActionResult> GerarDanfe(IFormFile file)
@@ -19,7 +19,7 @@ namespace GeradorDanfe.App.Controllers
                 }
 
                 using var stream = file.OpenReadStream();
-                var danfe = await service.ExecuteAsync(stream);
+                var danfe = await service.GenerateDanfeAsync(stream);
                 return File(danfe.Bytes, danfe.ContentType, danfe.Name);
             }
             catch (Exception ex)
