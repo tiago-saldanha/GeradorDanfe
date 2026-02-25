@@ -1,39 +1,50 @@
-﻿using System.Text;
-using GeradorDanfe.Application.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using GeradorDanfe.Application.Documents;
+using GeradorDanfe.Application.Generators;
 using GeradorDanfe.Application.Interfaces;
+using GeradorDanfe.Application.Metadata;
+using GeradorDanfe.Application.Models;
 
 namespace GeradorDanfe.Application.Services
 {
-    public class DanfeService(ILogger<DanfeService> logger, IPDFService pdfService) : IDanfeService
+    public class DanfeService(ILogger<DanfeService> logger, IPdfService pdfService) : IDanfeService
     {
         /// <summary>
-        /// Processa um XML de NF-e a partir de um <see cref="Stream"/>,
-        /// gera o DANFE em formato HTML e converte para PDF.
+        /// Processa um XML de NF-e, gera o DANFE em formato PDF
+        /// e retorna o resultado contendo o arquivo gerado.
         /// </summary>
+        /// <remarks>
+        /// Este método realiza a leitura e desserialização do XML,
+        /// extrai os metadados da NF-e, gera o DANFE em HTML e
+        /// converte o conteúdo para PDF.
+        /// </remarks>
         /// <param name="stream">
-        /// Stream contendo o XML da NF-e.
+        /// Stream contendo o XML autorizado da NF-e.
         /// </param>
         /// <returns>
-        /// Um <see cref="DanfeResult"/> com o conteúdo do PDF gerado
-        /// e o nome do arquivo baseado na chave de acesso da NF-e.
+        /// Uma <see cref="DanfeGenerationResult"/> contendo
+        /// os bytes do PDF gerado e o nome do arquivo baseado
+        /// na chave de acesso da NF-e.
         /// </returns>
-        /// <exception cref="NotSupportedException">
-        /// Lançada quando o XML é inválido ou não pode ser processado.
+        /// <exception cref="ArgumentNullException">
+        /// Lançada quando o <paramref name="stream"/> for nulo.
         /// </exception>
-        public async Task<DanfeResult> GenerateDanfeAsync(Stream stream)
+        /// <exception cref="NotSupportedException">
+        /// Pode ser lançada caso o XML esteja inválido
+        /// ou não possa ser processado.
+        /// </exception>
+        public async Task<DanfeGenerationResult> GenerateDanfeAsync(Stream stream)
         {
-            var nfe = new NFeResult(stream);
+            var document = new NFeDocument(stream);
+            var metadata = new NFeMetadata(document.NfeProc);
+            logger.LogInformation("Reading XML file: {key}", metadata.Key);
 
-            logger.LogInformation("Reading XML file: {key}", nfe.Key);
+            var html = await DanfeHtmlGenerator.GenerateAsync(document.NfeProc, metadata.Status, metadata.Protocol);
+            var request = new PdfGenerationRequest(html);
+            var bytes = pdfService.Generate(request);
 
-            var html = await nfe.GetHtmlDocumentAsync();
-
-            var bytes = pdfService.Generate(html);
-
-            logger.LogInformation("PDF generate succesfully: {key}", nfe.Key);
-
-            return new DanfeResult(bytes, $"{nfe.Key}.pdf");
+            logger.LogInformation("PDF generate succesfully: {key}", metadata.Key);
+            return new DanfeGenerationResult(bytes, $"{metadata.Key}.pdf");
         }
     }
 }

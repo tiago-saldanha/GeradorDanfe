@@ -1,7 +1,21 @@
-﻿namespace GeradorDanfe.Application.Interfaces
+﻿using GeradorDanfe.Application.Models;
+
+namespace GeradorDanfe.Application.Interfaces
 {
-    public interface IPDFService
+    /// <summary>
+    /// Define o contrato para conversão de conteúdo HTML em PDF.
+    /// </summary>
+    public interface IPdfService
     {
-        byte[] Generate(string html);
+        /// <summary>
+        /// Gera um arquivo PDF a partir de um conteúdo HTML.
+        /// </summary>
+        /// <param name="request">
+        /// Parâmetros necessários para geração do PDF.
+        /// </param>
+        /// <returns>
+        /// Um array de bytes representando o PDF gerado.
+        /// </returns>
+        byte[] Generate(PdfGenerationRequest request);
     }
 }

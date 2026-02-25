@@ -15,5 +15,9 @@
     /// Tipo de conteúdo (MIME type) do arquivo.
     /// O valor padrão é "application/pdf".
     /// </param>
-    public record DanfeResult(byte[] Bytes, string Name, string ContentType = "application/pdf");
+    public record DanfeGenerationResult(
+        byte[] Bytes, 
+        string Name, 
+        string ContentType = "application/pdf"
+    );
 }
