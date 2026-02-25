@@ -18,29 +18,6 @@ O sistema identifica automaticamente o documento fiscal, extrai a chave de acess
 
 ---
 
-## 🏗️ Arquitetura
-
-O projeto segue boas práticas de separação de responsabilidades:
-
-### 📌 Camadas
-
-- **Controller**
-  - Apenas orquestra requisições
-  - Não contém regra de negócio
-
-- **GeneratorService**
-  - Responsável por:
-    - Ler o XML
-    - Delegar geração para o serviço correto
-    - Extrair chave de acesso
-
-- **INFeService**
-  - Responsáveis pela geração específica do DANFE
-- **IPDFService**
-  - Responsável por gerar o PDF utilizando DinkToPdf
-
----
-
 ## 🧠 Fluxo da Aplicação
 
 1. Usuário envia XML
@@ -57,9 +34,7 @@ O projeto segue boas práticas de separação de responsabilidades:
 - .NET 8
 - ASP.NET Core MVC
 - Dependency Injection
-- LINQ to XML (`XDocument`)
 - Bootstrap (UI)
-- Logging com `ILogger`
 - DinkToPdf
 - wkhtmltopdf
 
@@ -123,10 +98,9 @@ No Linux, o sistema operacional gerencia o binário instalado globalmente, não 
 
 ## 📸 Preview
 
-<img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/9ef39c9c-4725-4de7-b091-d4624b43ec0c" />
+<img width="1901" height="942" alt="image" src="https://github.com/user-attachments/assets/02d4ec31-ad78-477f-9105-2b833e3c1034" />
 
-<img width="1245" height="789" alt="image" src="https://github.com/user-attachments/assets/c91b1561-73ba-4954-b614-5993bbae2b7f" />
-
+<img width="1024" height="1024" alt="Danfe" src="https://github.com/user-attachments/assets/0d3b1065-fe0a-4e85-8c4d-25a8bb242f71" />
 
 ---
 
@@ -141,7 +115,7 @@ git clone https://github.com/seu-usuario/gerador-danfe-app.git
 2. Acesse a pasta:
 
 ```bash
-cd GeradorDanfe.App
+cd src/GeradorDanfe.Web
 ```
 
 3. Execute:
@@ -160,11 +134,8 @@ https://localhost:5001
 
 ## 📌 Próximas Melhorias
 
-- [ ] Validação estrutural do XML
 - [ ] Testes unitários
-- [ ] Dockerização
 - [ ] Deploy em Azure
-- [ ] Histórico de documentos gerados
 - [ ] Upload múltiplo
 
 ---
