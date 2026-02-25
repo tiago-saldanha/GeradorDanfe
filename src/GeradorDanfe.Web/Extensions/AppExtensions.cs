@@ -1,9 +1,9 @@
 ﻿using DinkToPdf.Contracts;
 using DinkToPdf;
 using GeradorDanfe.App.Context;
-using GeradorDanfe.App.Interfaces;
-using GeradorDanfe.App.Services;
 using System.Runtime.InteropServices;
+using GeradorDanfe.Application.Services;
+using GeradorDanfe.Application.Interfaces;
 
 namespace GeradorDanfe.App.Extensions
 {
@@ -25,9 +25,8 @@ namespace GeradorDanfe.App.Extensions
         {
             services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
             services.AddControllersWithViews();
-            services.AddTransient<IPDFService, PDFService>();
-            services.AddTransient<INFeService, NFeService>();
-            services.AddTransient<IGeneratorService, GeneratorService>();
+            services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<IDanfeService, DanfeService>();
             return services;
         }
 

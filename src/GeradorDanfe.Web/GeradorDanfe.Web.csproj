@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -12,7 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Lib\libwkhtmltox.dll">
+    <ProjectReference Include="..\GeradorDanfe.Application\GeradorDanfe.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="lib\libwkhtmltox.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

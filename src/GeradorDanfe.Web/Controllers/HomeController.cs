@@ -1,18 +1,25 @@
 using System.Diagnostics;
-using GeradorDanfe.App.Interfaces;
 using GeradorDanfe.App.Models;
+using GeradorDanfe.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeradorDanfe.App.Controllers
 {
-    public class HomeController(ILogger<HomeController> logger, IGeneratorService service) : Controller
+    public class HomeController(ILogger<HomeController> logger, IDanfeService service) : Controller
     {
         [HttpPost]
         public async Task<IActionResult> GerarDanfe(IFormFile file)
         {
             try
             {
-                var danfe = await service.ExecuteAsync(file);
+                if (file == null || file.Length == 0)
+                {
+                    TempData["Error"] = "O arquivo informado é inválido.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                using var stream = file.OpenReadStream();
+                var danfe = await service.GenerateDanfeAsync(stream);
                 return File(danfe.Bytes, danfe.ContentType, danfe.Name);
             }
             catch (Exception ex)
