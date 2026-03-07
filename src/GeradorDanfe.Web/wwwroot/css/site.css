@@ -41,22 +41,22 @@ h2 {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-.custom-navbar .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .custom-navbar .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.custom-navbar .nav-link {
-    font-size: 0.95rem;
-    color: #495057;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
+    .custom-navbar .nav-link {
+        font-size: 0.95rem;
+        color: #495057;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
 
-.custom-navbar .nav-link:hover {
-    color: #0d6efd;
-}
+        .custom-navbar .nav-link:hover {
+            color: #0d6efd;
+        }
 
 /* ================================
    Main container
@@ -79,15 +79,17 @@ main {
     font-size: 32px;
     font-weight: 700;
     color: #1f2937;
+    margin-bottom: 1.5rem;
 }
 
 .hero-subtitle {
     font-size: 1rem;
     color: #6c757d;
-    margin-top: 8px;
     max-width: 680px;
+    margin-top: 8px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 1.5rem;
 }
 
 /* ================================
@@ -104,21 +106,16 @@ main {
     flex-direction: column;
 }
 
-/* Criamos essa classe para manter os 680px apenas onde você quer */
-.card-width-large {
-    max-width: 750px;
-    width: 100%;
+.main-card-item {
+    display: flex;
+    justify-content: center;
+    min-height: 280px;
 }
 
 .card-container-center {
     max-width: 680px;
     width: 100%;
     margin: 0 auto;
-}
-
-.main-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
 }
 
 /* ================================
@@ -137,17 +134,24 @@ main {
 /* ================================
    Botão principal
 ================================ */
-.btn-primary {
-    border-radius: 50px;
-    font-weight: 600;
-    padding: 12px 0;
+#submit {
+    max-width: 230px;
+    margin: auto;
+}
+.btn-outline-primary {
+    border-radius: 40px;
     transition: all 0.2s ease;
 }
 
-    .btn-primary:hover {
+    .btn-outline-primary:hover {
         transform: translateY(-1px);
         box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
     }
+
+.btn-outline-dark {
+    border-radius: 40px;
+    transition: all 0.2s ease;
+}
 
 /* ================================
    Alertas
@@ -185,5 +189,10 @@ main {
 }
 
 .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
     text-align: center;
 }

@@ -18,7 +18,7 @@
 
     <!-- CARD PRINCIPAL -->
     <section class="container d-flex justify-content-center">
-        <div class="card main-card card-width-large p-4">
+        <div class="main-card p-4">
 
             @if (TempData["Error"] != null)
             {
@@ -44,9 +44,9 @@
                     </div>
                 </div>
 
-                <div class="d-grid">
-                    <button type="submit"
-                            class="btn btn-primary btn-lg">
+                <div class="d-flex">
+                    <button id="submit" type="submit"
+                            class="btn btn-outline-primary btn-lg">
                         Gerar DANFE em PDF
                     </button>
                 </div>
